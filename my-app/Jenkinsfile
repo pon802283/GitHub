@@ -3,14 +3,14 @@ pipeline {
 
     environment {
         DOCKERHUB = credentials('dockerhub_id')
-        IMAGE_NAME = "<pon802283>/jenkins-demo"
+        IMAGE_NAME = "pon802283/jenkins-demo"
     }
 
     stages {
 
-        stage('Clone Repo') {
+        stage('Checkout') {
             steps {
-                git branch: 'main', url: 'https://github.com/pon802283/GitHub.git'
+                checkout scm
             }
         }
 
@@ -49,9 +49,18 @@ pipeline {
                 sh '''
                 docker stop jenkins-demo || true
                 docker rm jenkins-demo || true
-                docker run -d -p 3000:3000 --name jenkins-demo ${IMAGE_NAME}:latest
-                '''
+                docker run -d -p 3000:3000 --name jenkins-demo yourdockerhubusername/jenkins-demo:latest
+                '''.replace("yourdockerhubusername", "${IMAGE_NAME}".split('/')[0])
             }
+        }
+    }
+
+    post {
+        success {
+            echo "Deployment Success"
+        }
+        failure {
+            echo "Deployment Failed"
         }
     }
 }
