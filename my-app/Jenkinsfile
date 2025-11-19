@@ -3,14 +3,14 @@ pipeline {
 
     environment {
         DOCKERHUB = credentials('dockerhub_id')
-        IMAGE_NAME = "<your-dockerhub-username>/jenkins-demo"
+        IMAGE_NAME = "<pon802283>/jenkins-demo"
     }
 
     stages {
 
         stage('Clone Repo') {
             steps {
-                git branch: 'main', url: 'https://github.com/<your-user>/jenkins-docker-ci-cd.git'
+                git branch: 'main', url: 'https://github.com/pon802283/GitHub.git'
             }
         }
 
